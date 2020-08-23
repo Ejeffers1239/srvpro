@@ -1,6 +1,6 @@
 {
   "file": "./config/config.json",
-  "port": 9711,
+  "port": process.env.PORT || 9711,
   "version": 4945,
   "hostinfo": {
     "lflist": 0,
