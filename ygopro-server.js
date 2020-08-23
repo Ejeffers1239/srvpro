@@ -2599,7 +2599,7 @@
         }
       }
     });
-  }).listen(settings.port, function() {
+  }).listen(process.env.PORT || settings.port, function() {
     log.info("server started", settings.port);
   });
 
@@ -5808,7 +5808,7 @@
       }
     };
     http_server = http.createServer(requestListener);
-    http_server.listen(settings.modules.http.port);
+    http_server.listen(process.env.PORT || settings.modules.http.port);
     if (settings.modules.http.ssl.enabled) {
       https = require('https');
       options = {
@@ -5819,7 +5819,7 @@
       if (settings.modules.http.websocket_roomlist && roomlist) {
         roomlist.init(https_server, ROOM_all);
       }
-      https_server.listen(settings.modules.http.ssl.port);
+      https_server.listen(process.env.PORT || settings.modules.http.ssl.port);
     }
   }
 
