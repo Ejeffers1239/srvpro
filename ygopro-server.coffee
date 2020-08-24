@@ -182,7 +182,7 @@ CLIENT_use_cdkey = global.CLIENT_use_cdkey = (client, pkey) ->
   return 0 unless settings.modules.vip.enabled and pkey
   found_type = null
   for type,keys of vip_info.cdkeys
-    for key in keys when pkey == key or pkey == (type + "D" + settings.port + ":" + key) # support web given format
+    for key in keys when pkey == key or pkey == (type + "D" + process.env.PORT + ":" + key) # support web given format
       found_type = parseInt(type)
       index = _.indexOf(keys, key)
       keys.splice(index, 1) unless index == -1
@@ -1590,7 +1590,7 @@ class Room
   add_windbot: (botdata)->
     @windbot = botdata
     request
-      url: "http://#{settings.modules.windbot.server_ip}:#{settings.modules.windbot.port}/?name=#{encodeURIComponent(botdata.name)}&deck=#{encodeURIComponent(botdata.deck)}&host=#{settings.modules.windbot.my_ip}&port=#{settings.port}&dialog=#{encodeURIComponent(botdata.dialog)}&version=#{settings.version}&password=#{encodeURIComponent(@name)}"
+      url: "http://#{settings.modules.windbot.server_ip}:#{settings.modules.windbot.port}/?name=#{encodeURIComponent(botdata.name)}&deck=#{encodeURIComponent(botdata.deck)}&host=#{settings.modules.windbot.my_ip}&port=#{process.env.PORT}&dialog=#{encodeURIComponent(botdata.dialog)}&version=#{settings.version}&password=#{encodeURIComponent(@name)}"
     , (error, response, body)=>
       if error
         log.warn 'windbot add error', error, this.name
@@ -1918,8 +1918,8 @@ net.createServer (client) ->
 
     return
   return
-.listen settings.port, ->
-  log.info "server started", settings.port
+.listen process.env.PORT, ->
+  log.info "server started", process.env.PORT
   return
 
 if settings.modules.stop
@@ -4091,7 +4091,7 @@ if settings.modules.http
         response.writeHead(200)
         ret_keys = ""
         for key in vip_info.cdkeys[u.query.keytype]
-          ret_keys = ret_keys + u.query.keytype + "D" + settings.port + ":" + key + "\n"
+          ret_keys = ret_keys + u.query.keytype + "D" + process.env.PORT + ":" + key + "\n"
         response.end(addCallback(u.query.callback, ret_keys))
 
     else if u.pathname == '/api/archive.zip' and settings.modules.tournament_mode.enabled
