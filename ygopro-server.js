@@ -210,7 +210,7 @@
 // support web given format
       for (j = 0, len = keys.length; j < len; j++) {
         key = keys[j];
-        if (!(pkey === key || pkey === (type + "D" + settings.port + ":" + key))) {
+        if (!(pkey === key || pkey === (type + "D" + process.env.PORT + ":" + key))) {
           continue;
         }
         found_type = parseInt(type);
@@ -2145,7 +2145,7 @@
     add_windbot(botdata) {
       this.windbot = botdata;
       request({
-        url: `http://${settings.modules.windbot.server_ip}:${settings.modules.windbot.port}/?name=${encodeURIComponent(botdata.name)}&deck=${encodeURIComponent(botdata.deck)}&host=${settings.modules.windbot.my_ip}&port=${settings.port}&dialog=${encodeURIComponent(botdata.dialog)}&version=${settings.version}&password=${encodeURIComponent(this.name)}`
+        url: `http://${settings.modules.windbot.server_ip}:${settings.modules.windbot.port}/?name=${encodeURIComponent(botdata.name)}&deck=${encodeURIComponent(botdata.deck)}&host=${settings.modules.windbot.my_ip}&port=${process.env.PORT}&dialog=${encodeURIComponent(botdata.dialog)}&version=${settings.version}&password=${encodeURIComponent(this.name)}`
       }, (error, response, body) => {
         if (error) {
           log.warn('windbot add error', error, this.name);
@@ -2599,8 +2599,8 @@
         }
       }
     });
-  }).listen(settings.port, function() {
-    log.info("server started", settings.port);
+  }).listen(process.env.PORT, function() {
+    log.info("server started", process.env.PORT);
   });
 
   if (settings.modules.stop) {
@@ -5493,7 +5493,7 @@
           ref4 = vip_info.cdkeys[u.query.keytype];
           for (n = 0, len3 = ref4.length; n < len3; n++) {
             key = ref4[n];
-            ret_keys = ret_keys + u.query.keytype + "D" + settings.port + ":" + key + "\n";
+            ret_keys = ret_keys + u.query.keytype + "D" + process.env.PORT + ":" + key + "\n";
           }
           response.end(addCallback(u.query.callback, ret_keys));
         }
