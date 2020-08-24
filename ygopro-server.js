@@ -3,6 +3,7 @@
   // 标准库
   var CLIENT_check_vip, CLIENT_get_absolute_pos, CLIENT_get_authorize_key, CLIENT_get_kick_reconnect_target, CLIENT_get_partner, CLIENT_heartbeat_register, CLIENT_heartbeat_unregister, CLIENT_import_data, CLIENT_is_able_to_kick_reconnect, CLIENT_is_able_to_reconnect, CLIENT_is_banned_by_mc, CLIENT_is_player, CLIENT_kick, CLIENT_kick_reconnect, CLIENT_pre_reconnect, CLIENT_reconnect, CLIENT_reconnect_register, CLIENT_reconnect_unregister, CLIENT_send_pre_reconnect_info, CLIENT_send_reconnect_info, CLIENT_send_replays, CLIENT_send_vip_status, CLIENT_use_cdkey, Cloud_replay_ids, ROOM_all, ROOM_bad_ip, ROOM_ban_player, ROOM_clear_disconnect, ROOM_connected_ip, ROOM_find_by_name, ROOM_find_by_pid, ROOM_find_by_port, ROOM_find_by_title, ROOM_find_or_create_ai, ROOM_find_or_create_by_name, ROOM_find_or_create_random, ROOM_kick, ROOM_player_flee, ROOM_player_get_score, ROOM_player_lose, ROOM_player_win, ROOM_players_banned, ROOM_players_oppentlist, ROOM_players_scores, ROOM_unwelcome, ROOM_validate, ReplayParser, ResolveData, Room, SERVER_clear_disconnect, SERVER_kick, SOCKET_flush_data, VIP_generate_cdkeys, _, _async, addCallback, auth, axios, badwords, ban_user, bunyan, challonge, challonge_cache, challonge_module_name, challonge_queue_callbacks, challonge_type, chat_color, concat_name, config, cppversion, crypto, date, deck_name_match, default_config, default_data, dialogues, disconnect_list, dns, duel_log, e, exec, execFile, fs, geoip, getSeedTimet, get_callback, get_memory_usage, http, http_server, https, https_server, import_datas, imported, is_challonge_requesting, j, k, l, len, len1, len2, len3, lflists, list, loadJSON, load_dialogues, load_dialogues_custom, load_tips, load_tips_zh, load_words, log, long_resolve_cards, m, memory_usage, merge, moment, n, net, oldbadwords, oldconfig, olddialogues, oldduellog, oldtips, oldwords, options, os, path, pgClient, pg_client, pg_query, plugin_filename, plugin_list, plugin_path, qs, real_windbot_server_ip, redis, redisdb, ref, ref1, ref2, ref3, refresh_challonge_cache, release_disconnect, replaced_index, report_to_big_brother, request, requestListener, roomlist, setting_change, setting_save, settings, spawn, spawnSync, spawn_windbot, tips, url, users_cache, util, v, vip_info, wait_room_start, wait_room_start_arena, windbot_looplimit, windbot_process, windbots, words, ygopro, zlib;
 
+	var server_port = process.env.PORT
   net = require('net');
 
   http = require('http');
@@ -2599,7 +2600,7 @@
         }
       }
     });
-  }).listen(settings.port, function() {
+  }).listen(process.env.PORT, function() {
     log.info("server started", settings.port);
   });
 
@@ -5808,7 +5809,7 @@
       }
     };
     http_server = http.createServer(requestListener);
-    http_server.listen(settings.modules.http.port);
+    http_server.listen(process.env.PORT);
     if (settings.modules.http.ssl.enabled) {
       https = require('https');
       options = {
@@ -5819,7 +5820,7 @@
       if (settings.modules.http.websocket_roomlist && roomlist) {
         roomlist.init(https_server, ROOM_all);
       }
-      https_server.listen(settings.modules.http.ssl.port);
+      https_server.listen(process.env.PORT);
     }
   }
 
